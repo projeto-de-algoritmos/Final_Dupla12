@@ -3,6 +3,8 @@ import './Board.css';
 import shrekImage from '../../assets/images/shrek.png';
 import dragonImage from '../../assets/images/dragon.png';
 import backgroundImage from '../../assets/images/StoneFloorTexture.png';
+import wallImage from '../../assets/images/WallTexture.jpg';
+import lavaImage from '../../assets/images/lavaTexture.jpg';
 
 function Board({ map, currentCell, items, forwardedRef }) {
   const canvas = useRef(null);
@@ -22,28 +24,18 @@ function Board({ map, currentCell, items, forwardedRef }) {
     return () => window.removeEventListener('resize', onResize);
   }, [onResize]);
 
-  const drawWall = (coordX, coordY, width, height) => {
-    context.strokeStyle = 'white';
-    context.beginPath();
-    context.moveTo(coordX, coordY);
-    context.lineTo(coordX + width, coordY + height);
-    context.stroke();
-  };
-
   const drawImage = (x, y, img) => {
     const blockWidth = Math.floor(canvas.current.width / map.cols);
     const blockHeight = Math.floor(canvas.current.height / map.rows);
-    const xOffset = Math.floor((canvas.current.width - map.cols * blockWidth) / 2);
 
-    const imgSize = 0.75 * Math.min(blockWidth, blockHeight);
-    const image = new Image(imgSize, imgSize);
+    const image = new Image();
     image.onload = () => {
       context.drawImage(
         image,
-        x * blockWidth + xOffset + (blockWidth - imgSize) / 2,
-        y * blockHeight + (blockHeight - imgSize) / 2,
-        imgSize,
-        imgSize
+        x * blockWidth,
+        y * blockHeight,
+        blockWidth,
+        blockHeight
       );
     };
 
@@ -55,27 +47,20 @@ function Board({ map, currentCell, items, forwardedRef }) {
       return;
     }
 
-    const blockWidth = Math.floor(canvas.current.width / map.cols);
-    const blockHeight = Math.floor(canvas.current.height / map.rows);
-    const xOffset = Math.floor((canvas.current.width - map.cols * blockWidth) / 2);
-
     for (let y = 0; y < map.rows; y++) {
       for (let x = 0; x < map.cols; x++) {
 
         const cell = map.cells[x + y * map.cols];
-        if (y === 0 && cell[0]) {
-          drawWall(blockWidth * x + xOffset, blockHeight * y, blockWidth, 0);
+
+        if (cell.blockType === 1) {
+          drawImage(x, y, wallImage)
         }
-        if (cell[1]) {
-          drawWall(blockWidth * (x + 1) + xOffset, blockHeight * y, 0, blockHeight);
+        else if (cell.blockType === 2) {
+          drawImage(x, y, lavaImage)
+        } else {
+          drawImage(x, y, backgroundImage)
         }
-        if (cell[2]) {
-          drawWall(blockWidth * x + xOffset, blockHeight * (y + 1), blockWidth, 0);
-        }
-        if (x === 0 && cell[3]) {
-          drawWall(blockWidth * x + xOffset, blockHeight * y, 0, blockHeight);
-        }
-        drawImage(x, y, backgroundImage)
+
       }
     }
     drawImage(map.endCell[0], map.endCell[1], dragonImage)
@@ -85,19 +70,29 @@ function Board({ map, currentCell, items, forwardedRef }) {
     if (!map) {
       return;
     }
-    
+
     items.forEach(item => {
       const { cell, image, isTaken } = item;
 
       if (!isTaken)
         drawImage(cell[0], cell[1], image);
-      else{
-        drawImage(cell[0], cell[1], backgroundImage);
+      else {
+
+        const itemCell = map.getCell(cell[0], cell[1]);
+        if (itemCell && itemCell.blockType === 2)
+          drawImage(cell[0], cell[1], lavaImage);
+        else
+          drawImage(cell[0], cell[1], backgroundImage);
       }
     });
 
     drawImage(currentCell[0], currentCell[1], shrekImage);
-    drawImage(previousCell.current[0], previousCell.current[1], backgroundImage);
+    const cell = map.cells[previousCell.current[0] + previousCell.current[1] * map.cols];
+    if (cell && cell.blockType === 2)
+      drawImage(previousCell.current[0], previousCell.current[1], lavaImage, true);
+    else
+      drawImage(previousCell.current[0], previousCell.current[1], backgroundImage, true);
+
 
     previousCell.current = currentCell
   }, [currentCell]);

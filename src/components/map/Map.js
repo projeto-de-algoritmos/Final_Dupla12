@@ -5,10 +5,6 @@ const generateRandomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-// const compareArray = (a, b) => {
-
-// }
-
 class Map {
   constructor(rows, cols, cells, startCell, endCell, randomCellsAmount) {
     this.rows = rows;
@@ -35,27 +31,30 @@ class Map {
   }
 
   getRandomCell() {
-    return [generateRandomNumber(0, this.cols), generateRandomNumber(0, this.rows)];
+    let generatedCell;
+    do{
+      generatedCell = [generateRandomNumber(0, this.cols), generateRandomNumber(0, this.rows)];
+    }while(this.getCell(generatedCell[0], generatedCell[1]).blockType === 1)
+    return generatedCell;
   }
 
   validateStep(currentCell, action) {
     const newPos = [...currentCell];
-    const currCellWalls = this.getCell(...currentCell);
     switch (action) {
       case KEYBOARD.Left:
-        if (currentCell[0] - 1 >= 0 && !currCellWalls[3])
+        if (currentCell[0] - 1 >= 0 && this.getCell(currentCell[0] - 1, currentCell[1]).blockType !== 1)
           newPos[0] = currentCell[0] - 1;
         break;
       case KEYBOARD.Right:
-        if (currentCell[0] + 1 < this.cols && !currCellWalls[1])
+        if (currentCell[0] + 1 < this.cols && this.getCell(currentCell[0] + 1, currentCell[1]).blockType !== 1)
           newPos[0] = currentCell[0] + 1;
         break;
       case KEYBOARD.Up:
-        if (currentCell[1] - 1 >= 0 && !currCellWalls[0])
+        if (currentCell[1] - 1 >= 0 && this.getCell(currentCell[0], currentCell[1] - 1).blockType !== 1)
           newPos[1] = currentCell[1] - 1;
         break;
       case KEYBOARD.Down:
-        if (currentCell[1] + 1 < this.rows && !currCellWalls[2])
+        if (currentCell[1] + 1 < this.rows && this.getCell(currentCell[0], currentCell[1] + 1).blockType !== 1)
           newPos[1] = currentCell[1] + 1;
         break;
       default:

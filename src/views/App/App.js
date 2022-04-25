@@ -50,6 +50,7 @@ function App() {
 
   const handleOnStartGame = () => {
     const newMap = new MapGenerator(ROWS, COLS, GAME_ITEMS.length).generate()
+    // console.log(newMap)
     setGameState(gameStageChange(gameState, newMap, 'startGame'))
   };
 
