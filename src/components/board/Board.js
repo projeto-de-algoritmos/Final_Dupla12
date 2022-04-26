@@ -95,6 +95,7 @@ function Board({ map, currentCell, items, forwardedRef }) {
 
 
     previousCell.current = currentCell
+
   }, [currentCell]);
 
   return (

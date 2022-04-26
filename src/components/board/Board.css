@@ -1,5 +1,5 @@
 .board-container {
-  position: absolute;
+  position: relative;
 }
 
 .canvas {

@@ -8,6 +8,7 @@
 
 .container {
   flex: 1;
-  margin: 40px;
+  margin: 30px;
+  max-height: 85%;
   position: relative;
 }
