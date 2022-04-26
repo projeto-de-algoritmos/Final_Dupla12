@@ -12,7 +12,10 @@
 O Jogo descreve um cenário onde o Shrek deve escolher os melhores itens para salvar a Fiona do castelo onde o dragão a mantém presa.
 
 ## Screenshots
-Adicione 3 ou mais screenshots do projeto em funcionamento.
+![image](https://user-images.githubusercontent.com/54921791/165212255-1d6007c9-d188-4603-bd28-aae9a2f25106.png)
+![image](https://user-images.githubusercontent.com/54921791/165212287-2201927c-559e-4263-bd54-97017ad4692c.png)
+![image](https://user-images.githubusercontent.com/54921791/165212362-4acf1a74-ae00-4100-bb6f-832a50b14862.png)
+
 
 ## Instalação 
 **Linguagem**: JavaScript<br>
