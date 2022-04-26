@@ -8,6 +8,9 @@
 | 19/0012307  |  Eduardo Afonso Dutra Silva |
 | 19/0019085  |  Rafael Cleydson da Silva Ramos |
 
+## Apresentação
+Link da apresentação: https://drive.google.com/file/d/1FaMUgeHQgw11o9MlgGkoCnqpyPweFpsz/view?usp=sharing
+
 ## Sobre 
 O Jogo descreve um cenário onde o Shrek deve escolher os melhores itens para salvar a Fiona do castelo onde o dragão a mantém presa.
 
